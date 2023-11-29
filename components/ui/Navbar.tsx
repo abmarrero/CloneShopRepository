@@ -16,7 +16,7 @@ export const Navbar = () => {
             {/* <NextLink href='./' passHref> */}
             
             
-                <Link href='./' display='flex' alignItems='center' >
+                <Link href='/' display='flex' alignItems='center' >
 
                     <Typography variant='h6' >Clone |</Typography>
                     <Typography sx={{ml: 0.5}}>Shop</Typography>    

@@ -1,4 +1,6 @@
 
+
+
 import { ShopLayout } from '@/components/layouts';
 import { Typography } from '@mui/material';
 import { NextPage } from 'next';
@@ -12,16 +14,16 @@ import { FullScreenLoading } from '@/components/ui';
 
 
 
-const Home: NextPage=()=> {
+const KidPage: NextPage=()=> {
 
-    const {products,isloading} = useProducts('/products');
+    const {products,isloading} = useProducts('/products?gender=kid');
 
   return (
     
-    <ShopLayout title={'Clone-Shop - Home'} pageDescription={'Encuentra los mejores producto de CLone aqui'}>
+    <ShopLayout title={'Clone-Shop - Kids'} pageDescription={'Encuentra los mejores producto de CLone aqui'}>
 
-    <Typography variant='h1' component='h1'>Tienda</Typography>
-    <Typography variant='h2' sx={{ mb: 1 }}>Todos los productos</Typography>
+    <Typography variant='h1' component='h1'>Niños</Typography>
+    <Typography variant='h2' sx={{ mb: 1 }}>Productos para niños</Typography>
       
       
         {
@@ -37,4 +39,4 @@ const Home: NextPage=()=> {
 
   )
 }
-export default Home;
+export default KidPage;
