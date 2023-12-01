@@ -8,6 +8,7 @@ import {lightTheme} from '@/themes/light-theme'
 
 import '@/styles/globals.css'
 import { SWRConfig } from 'swr/_internal'
+import { UIProvider } from '@/context'
 
 
 function MyApp({Component, pageProps }: AppProps) {
@@ -20,6 +21,7 @@ function MyApp({Component, pageProps }: AppProps) {
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >
+    <UIProvider>
     <ThemeProvider theme={lightTheme} >
 
         <CssBaseline/>
@@ -27,7 +29,11 @@ function MyApp({Component, pageProps }: AppProps) {
       <Component {...pageProps} />
     
     </ThemeProvider>
+    </UIProvider>
+
    </SWRConfig>      
+
+
   )
   }
 export default MyApp;
