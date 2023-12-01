@@ -55,7 +55,7 @@ export const ProductCard:FC<Props> = ({product}) => {
     <Card>
         
 
-        <Link href='/product/slug'>
+        <Link href={`/product/${product.slug}`}>
       <CardActionArea>
         <CardMedia 
         component='img'
