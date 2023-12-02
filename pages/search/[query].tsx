@@ -3,20 +3,23 @@
 
 import { ShopLayout } from '@/components/layouts';
 import { Typography } from '@mui/material';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 import { ProductList } from '@/components/products';
-import { useProducts } from '@/hooks/useProducts';
-import { FullScreenLoading } from '@/components/ui';
+
+import { getProductByTerm } from '@/database/dbProduct';
+import { IProduct } from '@/Interfaces';
+
+
+interface Props{
+  products: IProduct[];
+}
 
 
 
+const SearchPage: NextPage<Props> = ({products})=> {
 
-
-
-const SearchPage: NextPage=()=> {
-
-    const {products,isloading} = useProducts('/search/haha');
+    
 
   return (
     
@@ -26,12 +29,10 @@ const SearchPage: NextPage=()=> {
     <Typography variant='h2' sx={{ mb: 1 }}>ABC -- 123</Typography>
       
       
-        {
-          isloading
-          ? <FullScreenLoading/>
+       
           :<ProductList products={products} />
           
-        }
+         
 
 
 
@@ -39,4 +40,32 @@ const SearchPage: NextPage=()=> {
 
   )
 }
+
+
+    export const getServerSideProps: GetServerSideProps = async ({params}) => {
+
+        const {query=''} = params as {query: string};
+
+        
+        
+        if(query.length===0){
+            return{
+                redirect:{
+                    destination: '/',
+                    permanent: true
+                }
+            }
+        }
+
+        const products = await getProductByTerm(query);
+
+              return {
+            props: {
+                products
+            }
+
+        }
+
+      }
+
 export default SearchPage;
