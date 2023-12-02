@@ -2,22 +2,24 @@
 
 
 import { ShopLayout } from '@/components/layouts';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { GetServerSideProps, NextPage } from 'next';
 
 import { ProductList } from '@/components/products';
 
-import { getProductByTerm } from '@/database/dbProduct';
+import { getAllProduct, getProductByTerm } from '@/database/dbProduct';
 import { IProduct } from '@/Interfaces';
 
 
 interface Props{
   products: IProduct[];
+  foundProducts: boolean;
+  query: string;
 }
 
 
 
-const SearchPage: NextPage<Props> = ({products})=> {
+const SearchPage: NextPage<Props> = ({products,query,foundProducts})=> {
 
     
 
@@ -25,16 +27,23 @@ const SearchPage: NextPage<Props> = ({products})=> {
     
     <ShopLayout title={'Clone-Shop - Search'} pageDescription={'Búsqueda de productos'}>
 
-    <Typography variant='h1' component='h1'>Buscar Producto</Typography>
-    <Typography variant='h2' sx={{ mb: 1 }}>ABC -- 123</Typography>
+    <Typography variant='h1' component='h1'>Buscar Productos</Typography>
+    
       
-      
-       
-          :<ProductList products={products} />
-          
-         
-
-
+      {
+        foundProducts
+        ?<Typography variant='h2' sx={{mb: 1}}>Término: {query}</Typography>
+          :(
+          <Box> 
+            <Typography variant='h2' sx={{mb: 1}}>No encontramos ningún producto</Typography>
+            <Typography variant='h2' sx={{mb: 1}} color='secondary'> {query}</Typography>
+          </Box>
+        )
+      }
+        
+        
+ 
+      <ProductList products={products} />
 
     </ShopLayout>
 
@@ -57,11 +66,20 @@ const SearchPage: NextPage<Props> = ({products})=> {
             }
         }
 
-        const products = await getProductByTerm(query);
+        let products = await getProductByTerm(query);
+        const foundProducts = products.length > 0;
+
+        if(!foundProducts){
+          products = await getAllProduct();
+          // products = await getProductByTerm(query);
+          
+        }
 
               return {
             props: {
-                products
+                products,
+                foundProducts,
+                query
             }
 
         }
