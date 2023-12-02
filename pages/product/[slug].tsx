@@ -4,7 +4,7 @@ import { ShopLayout } from '@/components/layouts'
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
 import { dbProduct } from '@/database';
-import { getProductBySlug } from '@/database/dbProduct';
+
 
 import { Box, Button, Chip, Grid, Typography } from '@mui/material'
 import { NextPage, GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
