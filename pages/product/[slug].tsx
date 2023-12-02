@@ -3,10 +3,11 @@ import { IProduct } from '@/Interfaces';
 import { ShopLayout } from '@/components/layouts'
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
+import { dbProduct } from '@/database';
 import { getProductBySlug } from '@/database/dbProduct';
 
 import { Box, Button, Chip, Grid, Typography } from '@mui/material'
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage, GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
 import React from 'react'
 
@@ -16,9 +17,10 @@ interface Props{
 
 export const slug:NextPage<Props> = ({product}) => {
 
-
+   
 
   return (
+    
     <ShopLayout title={product.title} pageDescription={product.description} >
         <Grid container spacing={3}>
             <Grid item xs={12} sm={7}>
@@ -60,11 +62,49 @@ export const slug:NextPage<Props> = ({product}) => {
   )
 }
 
-    export const getServerSideProps: GetServerSideProps = async ({params}) => {
+    // no usar esto...SSR 
+    // export const getServerSideProps: GetServerSideProps = async ({params}) => {
 
-        const {slug=''} = params as {slug: string};
+    //     const {slug=''} = params as {slug: string};
 
-        const product = await getProductBySlug(slug);
+    //     const product = await getProductBySlug(slug);
+        
+    //     if(!product){
+    //         return{
+    //             redirect:{
+    //                 destination: '/',
+    //                 permanent: false
+    //             }
+    //         }
+    //     }
+
+    //     return {
+    //         props: {
+    //             product
+    //         }
+
+    //     }
+
+    //     }
+
+    export const getStaticPaths: GetStaticPaths = async() => {
+    const productSlugs = await dbProduct.getAllProductSlug();
+    
+        return {
+            paths:productSlugs.map(({slug}) =>({
+                params:{
+                    slug
+                }
+        })),
+            fallback:'blocking'
+        }
+    }
+    
+    export const getStaticProps: GetStaticProps = async({params}) => {
+    
+            const {slug=''} = params as {slug: string};
+
+        const product = await dbProduct.getProductBySlug(slug);
         
         if(!product){
             return{
@@ -74,16 +114,14 @@ export const slug:NextPage<Props> = ({product}) => {
                 }
             }
         }
-
         return {
-            props: {
+            props:{
                 product
-            }
-
+            },
+            revalidate: 60 * 60 * 24
         }
+    }
 
-        }
 
-      
 
 export default slug
