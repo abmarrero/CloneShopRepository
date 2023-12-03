@@ -42,10 +42,14 @@ export const slug:NextPage<Props> = ({product}) => {
                     <ItemCounter/>
                     <SizeSelector  sizes={product.sizes}/>
                 </Box>  
-                    <Button color='secondary' className='circular-btn'>
+                {
+                    (product.inStock > 0)
+                    ?(<Button color='secondary' className='circular-btn'>
                         Agregar al carrito
-                    </Button>
-                    {/* <Chip label='no hay disponible' color='error' variant='outlined'/> */}
+                    </Button>)
+                  : <Chip label='no hay disponible' color='error' variant='outlined'/> 
+
+                }    
                 <Box sx={{mt: 3}}>
                     <Typography variant='subtitle2'> 
                         Descripción
