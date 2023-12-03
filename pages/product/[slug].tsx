@@ -30,6 +30,16 @@ export const slug:NextPage<Props> = ({product}) => {
 
    })
 
+   
+
+   const onUpdateQuantity = (quantity:number) => {
+    settempCartProduct(currentProduct=>({
+        ...currentProduct,
+
+        quantity
+   }));
+   }
+   
    const onSelectSizes = (sizes:ISizes) => {
     settempCartProduct(currentProduct=>({
         ...currentProduct,
@@ -58,7 +68,11 @@ export const slug:NextPage<Props> = ({product}) => {
                     <Typography variant='subtitle2'> 
                         Cantidad
                     </Typography>
-                    <ItemCounter/>
+                    <ItemCounter
+                    currentValue={tempCartProduct.quantity}
+                    MaxValue={product.inStock > 10 ? 10 : product.inStock}
+                    updateQuantity={onUpdateQuantity}
+                    />
                     <SizeSelector  sizes={product.sizes}
                                    selectedsize={tempCartProduct.sizes}
                                    onSelectSizes={(sizes)=>onSelectSizes(sizes)}

@@ -2,16 +2,37 @@
 
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
-import React from 'react'
+import React, { FC } from 'react'
 
-export const ItemCounter = () => {
+interface Props {
+
+  currentValue: number;
+  MaxValue: number;
+
+  updateQuantity: (newValue: number) => void;
+}
+
+
+
+export const ItemCounter:FC<Props> = ({currentValue,MaxValue,updateQuantity}) => {
+
+  const onRemoveOrAdd =(value:number) => {
+    if (value === -1) {
+    if(currentValue===1)return;
+        return updateQuantity(currentValue - 1)
+    
+    }if(currentValue >= MaxValue)return;
+    return updateQuantity(currentValue + 1)
+
+  }
+
   return (
     <Box display='flex' alignItems='center'>
-        <IconButton>
-            <RemoveCircleOutline/>
+        <IconButton onClick={()=>onRemoveOrAdd(-1)}>
+            <RemoveCircleOutline />
         </IconButton>
-        <Typography sx={{width: 40, textAlign: 'center'}}>1</Typography>
-        <IconButton>
+        <Typography sx={{width: 40, textAlign: 'center'}}>{currentValue}</Typography>
+        <IconButton onClick={()=>onRemoveOrAdd(+1)}>
             <AddCircleOutline/>
         </IconButton>
     </Box>
