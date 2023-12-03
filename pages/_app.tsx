@@ -8,7 +8,7 @@ import {lightTheme} from '@/themes/light-theme'
 
 import '@/styles/globals.css'
 import { SWRConfig } from 'swr/_internal'
-import { UIProvider } from '@/context'
+import { CartProvider, UIProvider } from '@/context'
 
 
 function MyApp({Component, pageProps }: AppProps) {
@@ -21,15 +21,17 @@ function MyApp({Component, pageProps }: AppProps) {
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >
-    <UIProvider>
-    <ThemeProvider theme={lightTheme} >
+     <CartProvider>
+      <UIProvider>
+        <ThemeProvider theme={lightTheme} >
 
-        <CssBaseline/>
+            <CssBaseline/>
 
-      <Component {...pageProps} />
-    
-    </ThemeProvider>
-    </UIProvider>
+          <Component {...pageProps} />
+        
+        </ThemeProvider>
+       </UIProvider>
+      </CartProvider>  
 
    </SWRConfig>      
 
