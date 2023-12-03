@@ -1,5 +1,5 @@
 
-import { IProduct } from '@/Interfaces';
+import { ICart, IProduct, ISizes } from '@/Interfaces';
 import { ShopLayout } from '@/components/layouts'
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
@@ -9,7 +9,7 @@ import { dbProduct } from '@/database';
 import { Box, Button, Chip, Grid, Typography } from '@mui/material'
 import { NextPage, GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
-import React from 'react'
+import React, { useState } from 'react'
 
 interface Props{
     product: IProduct
@@ -17,7 +17,26 @@ interface Props{
 
 export const slug:NextPage<Props> = ({product}) => {
 
-   
+   const [tempCartProduct, settempCartProduct] = useState<ICart>({
+
+    _id: product._id,
+    images: product.images[0],
+    price: product.price,
+    sizes: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 1,
+
+   })
+
+   const onSelectSizes = (sizes:ISizes) => {
+    settempCartProduct(currentProduct=>({
+        ...currentProduct,
+
+        sizes
+   }));
+   }
 
   return (
     
@@ -40,12 +59,19 @@ export const slug:NextPage<Props> = ({product}) => {
                         Cantidad
                     </Typography>
                     <ItemCounter/>
-                    <SizeSelector  sizes={product.sizes}/>
+                    <SizeSelector  sizes={product.sizes}
+                                   selectedsize={tempCartProduct.sizes}
+                                   onSelectSizes={(sizes)=>onSelectSizes(sizes)}
+                    />
                 </Box>  
                 {
                     (product.inStock > 0)
                     ?(<Button color='secondary' className='circular-btn'>
-                        Agregar al carrito
+                        {
+                            tempCartProduct.sizes
+                            ?'Agregar al carrito'
+                            :'Seleccione una talla'
+                        }
                     </Button>)
                   : <Chip label='no hay disponible' color='error' variant='outlined'/> 
 
