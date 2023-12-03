@@ -2,7 +2,7 @@
 
 
 import { ShopLayout } from '@/components/layouts';
-import { Box, Typography } from '@mui/material';
+import { Box, capitalize, Typography } from '@mui/material';
 import { GetServerSideProps, NextPage } from 'next';
 
 import { ProductList } from '@/components/products';
@@ -32,11 +32,11 @@ const SearchPage: NextPage<Props> = ({products,query,foundProducts})=> {
       
       {
         foundProducts
-        ?<Typography variant='h2' sx={{mb: 1}}>Término: {query}</Typography>
+        ?<Typography variant='h2' sx={{mb: 1}} textTransform='capitalize'>Término: {query}</Typography>
           :(
           <Box> 
             <Typography variant='h2' sx={{mb: 1}}>No encontramos ningún producto</Typography>
-            <Typography variant='h2' sx={{mb: 1}} color='secondary'> {query}</Typography>
+            <Typography variant='h2' sx={{mb: 1}} color='secondary' textTransform='capitalize'> {query}</Typography>
           </Box>
         )
       }
@@ -70,8 +70,8 @@ const SearchPage: NextPage<Props> = ({products,query,foundProducts})=> {
         const foundProducts = products.length > 0;
 
         if(!foundProducts){
-          products = await getAllProduct();
-          // products = await getProductByTerm(query);
+          // products = await getAllProduct();
+          products = await getProductByTerm('solar');
           
         }
 
