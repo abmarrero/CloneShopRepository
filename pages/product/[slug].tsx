@@ -8,8 +8,10 @@ import { dbProduct } from '@/database';
 
 import { Box, Button, Chip, Grid, Typography } from '@mui/material'
 import { NextPage, GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import router from 'next/router';
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { CartContext } from '../../context/cart/CartContext';
 
 interface Props{
     product: IProduct
@@ -30,6 +32,7 @@ export const slug:NextPage<Props> = ({product}) => {
 
    })
 
+   const {addProductToCart} = useContext(CartContext)
    
 
    const onUpdateQuantity = (quantity:number) => {
@@ -47,6 +50,14 @@ export const slug:NextPage<Props> = ({product}) => {
         sizes
    }));
    }
+
+    const onAddProduct = () => {
+
+        if(!tempCartProduct)return;
+        addProductToCart(tempCartProduct)
+        // router.push('cart')
+    } 
+
 
   return (
     
@@ -80,7 +91,7 @@ export const slug:NextPage<Props> = ({product}) => {
                 </Box>  
                 {
                     (product.inStock > 0)
-                    ?(<Button color='secondary' className='circular-btn'>
+                    ?(<Button color='secondary' className='circular-btn' onClick={onAddProduct}>
                         {
                             tempCartProduct.sizes
                             ?'Agregar al carrito'

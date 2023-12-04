@@ -5,7 +5,9 @@ import { createContext } from 'react';
 
 
 interface ContextProps {
-    cart: ICart;
+    cart: ICart[];
+
+    addProductToCart: (product: ICart) => void;
 }
 
 
