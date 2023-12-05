@@ -17,7 +17,7 @@ interface Props{
     product: IProduct
 }
 
-export const slug:NextPage<Props> = ({product}) => {
+export const Slug:NextPage<Props> = ({product}) => {
 
    const [tempCartProduct, settempCartProduct] = useState<ICart>({
 
@@ -179,4 +179,4 @@ export const slug:NextPage<Props> = ({product}) => {
 
 
 
-export default slug
+export default Slug

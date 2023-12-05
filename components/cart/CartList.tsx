@@ -40,11 +40,11 @@ export const CartList:FC<Props> = ({editable}) => {
                         <Box display='flex' flexDirection='column'>
                             <Typography variant='body1'>{product.title}</Typography>
                             <Typography variant='body1'>Talla:<strong>M</strong></Typography>
-                            {
+                            {/* {
                                 editable
                                 ?<ItemCounter/>
                                 :<Typography variant='h5'>3 Items</Typography>
-                            }
+                            } */}
                                 
                         </Box>
                     </Grid>
