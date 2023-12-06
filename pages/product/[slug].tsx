@@ -54,8 +54,8 @@ export const Slug:NextPage<Props> = ({product}) => {
     const onAddProduct = () => {
 
         if(!tempCartProduct)return;
-        addProductToCart(tempCartProduct)
-        // router.push('cart')
+        addProductToCart(tempCartProduct)   
+        router.push('cart')
     } 
 
 
