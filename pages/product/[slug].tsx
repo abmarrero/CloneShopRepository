@@ -55,7 +55,7 @@ export const Slug:NextPage<Props> = ({product}) => {
 
         if(!tempCartProduct)return;
         addProductToCart(tempCartProduct)   
-        router.push('cart')
+        router.push('/cart')
     } 
 
 

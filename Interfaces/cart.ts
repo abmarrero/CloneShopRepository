@@ -3,7 +3,7 @@ import { ISizes } from './';
 
 export interface ICart {
     _id: string;
-    images: string;
+    image: string;
     price: number;
     sizes?: ISizes;
     slug: string;
