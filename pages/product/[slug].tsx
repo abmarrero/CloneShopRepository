@@ -22,7 +22,7 @@ export const Slug:NextPage<Props> = ({product}) => {
    const [tempCartProduct, settempCartProduct] = useState<ICart>({
 
     _id: product._id,
-    images: product.images[0],
+    image: product.images[0],
     price: product.price,
     sizes: undefined,
     slug: product.slug,

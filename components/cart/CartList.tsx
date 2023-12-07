@@ -4,6 +4,7 @@ import { initialData } from '../../database/products';
 import { ItemCounter } from '../ui';
 import { FC, useContext } from 'react';
 import { CartContext } from '../../context/cart/CartContext';
+import { ICart } from '@/Interfaces';
 
 
 
@@ -14,18 +15,23 @@ interface Props{
 
 
 export const CartList:FC<Props> = ({editable = false}) => {
+    
+    const { cart , updateQuantityCart } = useContext(CartContext);
 
-    const { cart } = useContext(CartContext);
+    const onUpdateQuantity =(product: ICart, newValue:number) =>{
+        product.quantity = newValue;
+        updateQuantityCart(product);
+    }
     
   return (
     <>
         {
             cart.map( product => (
-                console.log(product.image),
-                <Grid container spacing={2} key={product.slug} sx={{mb: 1}}>
+                
+                <Grid container spacing={2} key={product.slug + product.sizes} sx={{mb: 1}}>
                     <Grid item xs={3} >
                     
-                        <Link href='/product/slug'>
+                        <Link href={`/product/${product.slug}`}>
                             <CardActionArea>
                                 <CardMedia
                                 component='img'
@@ -39,13 +45,13 @@ export const CartList:FC<Props> = ({editable = false}) => {
                     <Grid item xs={7}>
                         <Box display='flex' flexDirection='column'>
                             <Typography variant='body1'>{product.title}</Typography>
-                            <Typography variant='body1'>Talla:<strong>M</strong></Typography>
+                            <Typography variant='body1'>Talla:<strong>{product.sizes}</strong></Typography>
                             {
                                 editable
                                 ?<ItemCounter 
                                 currentValue={product.quantity} 
                                 MaxValue={10} 
-                                updateQuantity={ () => {}}
+                                updateQuantity={ (newValue) => {onUpdateQuantity(product,newValue)}}
                                     />
                                 :<Typography variant='h5'>{product.quantity} {product.quantity>1}?'productos':'producto'</Typography>
                             } 
