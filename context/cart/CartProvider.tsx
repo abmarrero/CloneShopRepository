@@ -4,6 +4,7 @@ import React, { FC, useEffect, useReducer } from 'react';
 import { CartContext, cartReducer } from './';
 import { ICart } from '@/Interfaces/cart';
 import Cookie from 'js-cookie';
+import { OrderSummary } from '../../components/cart/OrderSummary';
 
 export interface CartState {
     cart: ICart[];
@@ -31,6 +32,22 @@ export const CartProvider:FC<Props>  = ({ children }) => {
     }, [])
     
     
+    useEffect(() => {
+        if (JSON.stringify(state.cart) !== '[]') {
+            const numberOfItems = state.cart.reduce((sum, product) => sum + product.quantity, 0);
+            const subTotal = state.cart.reduce((sum, product) => sum + (product.quantity*product.price), 0);
+            const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
+            const orderSummary = {
+                numberOfItems,
+                subTotal,
+                tax: taxRate * subTotal,
+            }
+            console.log(orderSummary);
+            console.log(Number(process.env.NEXT_PUBLIC_TAX_RATE ))
+        }
+
+    }, [state.cart]);
+
     useEffect(() => {
         if (JSON.stringify(state.cart) !== '[]') {
             Cookie.set('cart', JSON.stringify(state.cart));
