@@ -1,7 +1,8 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {  connect, disconnect, seedDatabase  } from '@/database';
-import { Product } from '@/models';
+import { Product, User } from '@/models';
+ 
 
 
 
@@ -18,6 +19,10 @@ export default async function handler(
         return res.status(401).json({message:' No tiene acceso a este API'}); 
     }
     await connect();
+
+    await User.deleteMany();
+    await User.insertMany(seedDatabase.initialData.users);
+
     await Product.deleteMany();
     await Product.insertMany(seedDatabase.initialData.products);
     
