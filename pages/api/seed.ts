@@ -17,14 +17,14 @@ export default async function handler(
 
     if(process.env.NODE_ENV === 'production') {
         return res.status(401).json({message:' No tiene acceso a este API'}); 
-    }
+      }
+      
     await connect();
-
-    await User.deleteMany();
-    await User.insertMany(seedDatabase.initialData.users);
-
+    
     await Product.deleteMany();
     await Product.insertMany(seedDatabase.initialData.products);
+    await User.deleteMany();
+    await User.insertMany(seedDatabase.initialData.users);
     
     await disconnect();
     
