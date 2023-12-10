@@ -11,7 +11,7 @@ role:[{type: String,
             values:['admin','client'],
             message:'{VALUE} no es un tamaño válido',
             default: 'client',
-            required:true
+            required:true,
         }
 }],
 
