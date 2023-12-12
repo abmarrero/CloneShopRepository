@@ -36,9 +36,9 @@ const registerUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
     await connect();
     const user = await User.findOne({email});
 
-    if(password.length<6){
-        return res.status(400).json({ message: 'la contraseña tiene que ser mayor de 6 caracteres' })
-    }
+    // if(password.length<6){
+    //     return res.status(400).json({ message: 'la contraseña tiene que ser mayor de 6 caracteres' })
+    // }
 
     if(password.length<2){
         return res.status(400).json({ message: 'la contraseña tiene que ser menor de 2 caracteres' })
