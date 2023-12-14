@@ -1,5 +1,6 @@
 
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongoose';
 
 
 export const signToken = (id: string, email: string) =>{
@@ -18,23 +19,37 @@ export const signToken = (id: string, email: string) =>{
 
 }
 
-export const isValidToken = (token:string): Promise<string> =>{
+// export const isValidToken = (token:string): Promise<string> =>{
 
     
-    return new Promise((resolve,reject) => {
-        if(!process.env.JWT_SECRET_SEED) {
-            throw new Error('no hay semilla de JWT - Revisa las variables de entorno');
-        }
+//     return new Promise((resolve,reject) => {
+//         if(!process.env.JWT_SECRET_SEED) {
+//             throw new Error('no hay semilla de JWT - Revisa las variables de entorno');
+//         }
 
-        try {
-            jwt.verify(token, process.env.JWT_SECRET_SEED || '', (err, payload) => {
-                if (err) {return reject('JWT no es válido');}
-                const {_id} = payload as {_id: string};
-                JSON.stringify(resolve(_id));
-            });
-        } catch (error) {
-            reject('JWT no es válido')  ;
-        }
+//         try {
+//             jwt.verify(token, process.env.JWT_SECRET_SEED , (err, payload) => {
+//                 if (err) {return reject('JWT no es válido');}
+//                 const {_id} = payload as {_id: string};
+//                return resolve(_id);
+//             });
+//         } catch (error) {
+//             reject('JWT no es válido 2do')  ;
+//         }
 
-      })
-}
+//       })
+// }
+
+export const validarTokenJWT = (token:string):Promise<string> => {
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET_SEED || '', (err, decodedToken) => {
+        if (err) {
+          reject(err);
+        } else {
+            const {id} = decodedToken as {id: string};
+            console.log(`El token es válido. _id = ${id}`);
+          resolve(id);
+        }
+      });
+    });
+  };

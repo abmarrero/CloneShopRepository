@@ -2,7 +2,7 @@ import { IUser } from '@/Interfaces/user';
 import mongoose, {Schema,Model,model} from 'mongoose';
 
 const userSchema = new Schema({ 
-
+// id:{type: 'string',required: true},
 name:{type: 'string', required: true},
 email:{type: 'string', required: true,unique: true},
 password:{type: 'string', required: true},

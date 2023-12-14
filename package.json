@@ -17,6 +17,7 @@
     "@mui/x-data-grid": "^6.18.1",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
+    "bson-objectid": "^2.0.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",

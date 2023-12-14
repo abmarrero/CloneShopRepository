@@ -3,11 +3,13 @@ import { connect, disconnect } from '@/database'
 import { User } from '@/models'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ObjectId } from 'mongoose';
+import { ObjectId } from 'mongodb';
 import {  jwtex } from '@/utils';
-import { isValidToken } from '@/utils/jwt';
-import { IUser } from '../../../Interfaces/user';
+// import { isValidToken } from '@/utils/jwt';
 
+import mongoose from 'mongoose';
+// import  {ObjectId}  from 'bson-objectid';
+// import mongoose, {ObjectId} from 'mongoose';
 
 type Data = 
   |{message: string}
@@ -32,35 +34,32 @@ export default function handler(
 }
 const validateUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
 
-    const {token=''}= req.cookies;
+    const {token=''}= req.headers;
 
-      // res.status(200).json({
-    //     token
-        
-    // } as any)
+   
 
-    let userid = ''
-
-    try {
-        isValidToken(token)
-  .then(_id => {
-    console.log(`El token es válido. _id = ${_id}`);
+  let userId = '';
+ 
+  try {
     
-  })
-  .catch(error => {
-    console.error(`El token no es válido. Error: ${error}`);
-  });
-    } catch (error) {
-        return res.status(401).json({ message: 'token de autorización no es válido' })
-    }
+    userId = await jwtex.validarTokenJWT(token.toString() ) ;
+  } catch (error) {
+    
+  }
+  function quitarComillas(valor: string): string {
+    // Utilizamos una expresión regular para encontrar las comillas dobles y eliminarlas
+    return valor.replace(/"/g, "");
+  }
 
+  const idd = quitarComillas(userId);
+  await connect();
+  console.log(userId,'esvalido');
+  const user = await User.findById(idd).lean();
+  await disconnect();
 
-    await connect();
-    const user = await User.findById({userid}).lean();
-    await disconnect();
+    console.log(`El usuario es ${user}`);
 
-
-        if(!user) return res.status(400).json({ message: 'Usuario no es válido ' })
+        if(!user) return res.status(400).json({ message: 'Usuario no es válido' });
 
         
     const { name,role,_id, email} = user;
@@ -78,4 +77,6 @@ const validateUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
         }
     });
 }
+
+
 
