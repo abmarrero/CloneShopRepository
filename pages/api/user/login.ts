@@ -3,7 +3,7 @@ import { User } from '@/models'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs';
-import { jwtex } from '@/utils';
+import {  jwtex } from '@/utils';
 
 
 type Data = 
