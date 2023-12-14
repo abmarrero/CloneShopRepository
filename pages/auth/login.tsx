@@ -1,10 +1,12 @@
 
 
+import { cloneApi } from '@/api';
 import { AuthLayout } from '@/components/layouts'
 import { isEmail } from '@/utils/validations';
 import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 type Inputs = {
     email: string,
@@ -14,8 +16,18 @@ type Inputs = {
   const LoginPage = () => {
       const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
       
-        const onLoginUser = (data:Inputs) => {
-          console.log({data});
+        const onLoginUser = async({email, password}:Inputs) => {
+            try {
+                
+                const {data} = await cloneApi.post('/user/login', {email, password});
+                const {token, user} = data;
+                console.log({user, token});
+            } catch (error) {
+                console.log('Error en las credenciales');
+                // if(axios.isAxiosError(error)) {
+                //     error.message;
+                // }    
+            }
         };
   return (
     <AuthLayout title={'Ingresar'} >
