@@ -30,10 +30,12 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
     
     
     const checkToken = async() => {
-        
+        if( !Cookies.get('token')){
+            return;
+        }
         try {
             
-            const {data} = await cloneApi.get('/user/validate-token', );
+            const {data} = await cloneApi.get('/user/validate-token');
             const {token, user} = data;
             Cookies.set('token', token);
             dispatch({ type: '[Auth] - LogIn', payload: user})
