@@ -4,10 +4,12 @@ import { cloneApi } from '@/api';
 import { AuthLayout } from '@/components/layouts'
 import { isEmail } from '@/utils/validations';
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 import { ErrorOutline } from '@mui/icons-material';
+import { AuthContext } from '../../context/auth/AuthContext';
+import router, { useRouter } from 'next/router';
 
 type Inputs = {
     email: string,
@@ -15,31 +17,29 @@ type Inputs = {
   };
   
   const LoginPage = () => {
+      const router = useRouter();
       const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
-      const [showError, setShowError] = useState(false)
+      const { loginUser } = useContext(AuthContext);
+      const [showError, setShowError] = useState(false);
       const [botonBloqueado, setBotonBloqueado] = useState(false);
-        const onLoginUser = async({email, password}:Inputs) => {
+        
+      const onLoginUser = async({email, password}:Inputs) => {
             setShowError(false);
-            try {
-               
-                const {data} = await cloneApi.post('/user/login', {email, password});
-                const {token, user} = data;
-                console.log({token,user});
-                
-            } catch (error) {
-                console.log('Error en las credenciales');
+            const isValidLogin = await loginUser(email, password);    
+
+            if(!isValidLogin){   
                 setBotonBloqueado(true);
                 setShowError(true);
-                setTimeout(() => setShowError(false), 2000);
-                // if(axios.isAxiosError(error)) {
-                //     error.message;
-                // }    
+                setTimeout(() => setShowError(false), 2000);   
                 setTimeout(() => {
                     setBotonBloqueado(false); // Desbloquear el botón después de 3 segundos
                   }, 1000);
-                }
+                  return;
             }
+
+            router.replace('/');
+        }
        
   return (
     <AuthLayout title={'Ingresar'} >
