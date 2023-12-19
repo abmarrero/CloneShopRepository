@@ -34,10 +34,9 @@ export default function handler(
 }
 const validateUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
 
-    const {token=''}= req.headers;
+    const {token=''}= req.cookies;
 
    
-
   let userId = '';
  
   try {

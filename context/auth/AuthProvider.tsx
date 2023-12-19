@@ -1,5 +1,5 @@
 
-import React, { FC, useReducer } from 'react';
+import React, { FC, useEffect, useReducer } from 'react';
 import { AuthContext, authReducer } from './';
 import { IUser } from '@/Interfaces';
 import { cloneApi } from '@/api';
@@ -27,6 +27,26 @@ children?: React.ReactNode | undefined;
 export const AuthProvider:FC<Props>  = ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer , Auth_INITIAL_STATE );
+    
+    
+    const checkToken = async() => {
+        
+        try {
+            
+            const {data} = await cloneApi.get('/user/validate-token', );
+            const {token, user} = data;
+            Cookies.set('token', token);
+            dispatch({ type: '[Auth] - LogIn', payload: user})
+            
+        } catch (error) {
+            Cookies.remove('token');
+        }
+    };
+    
+    useEffect(() => {
+      checkToken();
+    }, [])
+
 
     const loginUser = async(email:string, password:string):Promise<boolean> => {
         
