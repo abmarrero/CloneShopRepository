@@ -6,7 +6,7 @@ import { isEmail } from '@/utils/validations';
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+
 import { ErrorOutline } from '@mui/icons-material';
 
 type Inputs = {
@@ -15,19 +15,18 @@ type Inputs = {
   };
   
   const LoginPage = () => {
-      const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+      const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
       const [showError, setShowError] = useState(false)
       const [botonBloqueado, setBotonBloqueado] = useState(false);
         const onLoginUser = async({email, password}:Inputs) => {
+            setShowError(false);
             try {
-                setShowError(false);
-                const manejarClic = () => {
-                    
-                }
+               
                 const {data} = await cloneApi.post('/user/login', {email, password});
                 const {token, user} = data;
-                console.log({user, token});
+                console.log({token,user});
+                
             } catch (error) {
                 console.log('Error en las credenciales');
                 setBotonBloqueado(true);
