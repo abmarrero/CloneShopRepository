@@ -4,6 +4,7 @@ import { AuthContext, authReducer } from './';
 import { IUser } from '@/Interfaces';
 import { cloneApi } from '@/api';
 import Cookies from 'js-cookie';
+import axios, { isAxiosError } from 'axios';
 
 
 export interface AuthState {
@@ -41,10 +42,35 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
         }
     }
 
+    const registerUser = async(email:string, password:string, name:string):Promise<{hasError:boolean; message?:string}> => {
+        
+        try { 
+            const {data} = await cloneApi.post('/user/register', {email, password,name});
+            const {token, user} = data;
+            Cookies.set('token', token);
+            dispatch({ type: '[Auth] - LogIn', payload: user})
+            return {
+                hasError: false,
+            }
+        } catch (error) {
+            if(axios.isAxiosError(error)) {
+            return {
+                hasError: false,
+                message: error.response?.data.message
+            }
+        }
+        return {
+            hasError: false,
+            message: 'no se puede crear el usuario - intente de nuevo'
+        }
+      }
+    }
+
     return (<AuthContext.Provider value={{
            ...state,
            
            loginUser,
+           registerUser
         }}>
             { children }
         </AuthContext.Provider>

@@ -2,10 +2,12 @@
 
 import { cloneApi } from '@/api';
 import { AuthLayout } from '@/components/layouts'
+import { AuthContext } from '@/context';
 import { isEmail } from '@/utils/validations';
 import { ErrorOutline } from '@mui/icons-material';
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { useRouter } from 'next/router';
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -15,30 +17,29 @@ type FormData = {
   };
 
 const RegisterPage = () => {
+    const router = useRouter();
+    const {registerUser} = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-    const [showError, setShowError] = useState(false)
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [botonBloqueado, setBotonBloqueado] = useState(false);
 
     const onRegisterForm = async( {email, password, name}:FormData) => {
         setShowError(false);
-        try {
-           
-            const {data} = await cloneApi.post('/user/register', {email, password, name});
-            const {token, user} = data;
-            console.log({user, token});
-        } catch (error) {
-            console.log('Error en las credenciales');
-            setBotonBloqueado(true);
-            setShowError(true);
-            setTimeout(() => setShowError(false), 2000);
-            // if(axios.isAxiosError(error)) {
-            //     error.message;
-            // }    
-            setTimeout(() => {
-                setBotonBloqueado(false); // Desbloquear el botón después de 3 segundos
-              }, 1000);
-            }
+        const {hasError, message} = await registerUser(email, password, name);
+
+        if(hasError){
+            setErrorMessage( message! );
+        setBotonBloqueado(true);
+        setShowError(true);
+        setTimeout(() => setShowError(false), 2000);
+        setTimeout(() => {
+            setBotonBloqueado(false); // Desbloquear el botón después de 3 segundos
+          }, 1000);
+          return;
+        } 
+        router.replace('/');
     }
 
   return (
