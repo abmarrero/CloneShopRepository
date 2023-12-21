@@ -3,7 +3,7 @@ import { connect, disconnect } from '@/database'
 import { User } from '@/models'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ObjectId } from 'mongodb';
+
 import {  jwtex } from '@/utils';
 // import { isValidToken } from '@/utils/jwt';
 
@@ -52,11 +52,10 @@ const validateUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
 
   const idd = quitarComillas(userId);
   await connect();
-  console.log(userId,'esvalido');
   const user = await User.findById(idd).lean();
   await disconnect();
 
-    console.log(`El usuario es ${user}`);
+   
 
         if(!user) return res.status(400).json({ message: 'Usuario no es válido' });
 

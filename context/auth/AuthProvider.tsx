@@ -5,6 +5,7 @@ import { IUser } from '@/Interfaces';
 import { cloneApi } from '@/api';
 import Cookies from 'js-cookie';
 import axios, { isAxiosError } from 'axios';
+import { useRouter } from 'next/router';
 
 
 export interface AuthState {
@@ -27,7 +28,7 @@ children?: React.ReactNode | undefined;
 export const AuthProvider:FC<Props>  = ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer , Auth_INITIAL_STATE );
-    
+    const router = useRouter();
     
     const checkToken = async() => {
         if( !Cookies.get('token')){
@@ -64,6 +65,12 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
         }
     }
 
+    const logOut = () => {
+        Cookies.remove('token');
+        Cookies.remove('cart');
+        router.reload();
+    };
+
     const registerUser = async(email:string, password:string, name:string):Promise<{hasError:boolean; message?:string}> => {
         
         try { 
@@ -92,7 +99,8 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
            ...state,
            
            loginUser,
-           registerUser
+           registerUser,
+           logOut,
         }}>
             { children }
         </AuthContext.Provider>

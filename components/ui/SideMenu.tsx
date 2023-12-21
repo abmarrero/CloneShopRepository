@@ -5,7 +5,7 @@ import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, Confirmati
 import { useContext, useState } from "react"
 import { AuthContext, UIContext } from "@/context"
 import { useRouter } from "next/router"
-
+import Cookies from 'js-cookie';
 
 export const SideMenu = () => {
 
@@ -24,6 +24,11 @@ export const SideMenu = () => {
        if( SearchTerm.trim().length === 0 ) return;
        navigateTo(`/search/${SearchTerm}`);
     }
+    const onLogOut = () =>{
+        Cookies.remove('token');
+        Cookies.remove('cart');
+        router.reload();
+     }
     
   return (
     <Drawer
@@ -113,7 +118,7 @@ export const SideMenu = () => {
                 {
                     isLoggedIn
                     ?(
-                        <ListItem button>
+                        <ListItem button onClick={() => onLogOut() }>
                             <ListItemIcon>
                                 <LoginOutlined/>
                             </ListItemIcon>
@@ -121,7 +126,7 @@ export const SideMenu = () => {
                         </ListItem>
                     )  
                     :(
-                <ListItem button>
+                <ListItem button onClick={() => navigateTo(`/auth/login?p=${router.asPath}`)}>
                     <ListItemIcon>
                         <VpnKeyOutlined/>
                     </ListItemIcon>
