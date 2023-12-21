@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 
 import { ErrorOutline } from '@mui/icons-material';
 import { AuthContext } from '../../context/auth/AuthContext';
-import router, { useRouter } from 'next/router';
+import  { useRouter } from 'next/router';
 
 type Inputs = {
     email: string,
@@ -86,7 +86,8 @@ type Inputs = {
                 </Grid>
                 <Grid item xs={12} display='flex' justifyContent='end'>
                 
-                    <Link href='/auth/register' style={{textDecoration:'underline'}}>
+                    <Link href={router.query.p ? `/auth/register?p=${router.query.p}`:'/auth/register'} 
+                          style={{textDecoration:'underline'}}>
                         ¿No tienes cuenta?
                     </Link>
                 </Grid>
