@@ -5,7 +5,7 @@ import { ItemCounter } from '../ui';
 import { FC, useContext } from 'react';
 import { CartContext } from '../../context/cart/CartContext';
 import { ICart } from '@/Interfaces';
-
+import Cookie from 'js-cookie';
 
 
     
@@ -21,7 +21,21 @@ export const CartList:FC<Props> = ({editable = false}) => {
     const onUpdateQuantity =(product: ICart, newValue:number) =>{
         product.quantity = newValue;
         updateQuantityCart(product);
+        
     }
+    const onRemoveInCart =(product: ICart) =>{
+        
+        removeInCart(product);
+        // console.log('primera' , cart);
+        if(cart[1] === null || cart[1] === undefined)
+        Cookie.set('cart', '[]')
+    }
+    // const onRemove =() =>{
+        
+    //     if(JSON.stringify(cart)==='[]')
+    //         Cookie.set('cart', '[]');
+    //         // console.log('segunda' , cart);
+    // }
     
   return (
     <>
@@ -62,7 +76,11 @@ export const CartList:FC<Props> = ({editable = false}) => {
                     <Typography variant='subtitle1'>{`$${product.price}`}</Typography>
                     {
                         editable && (
-                            <Button color='secondary' variant='text' onClick={() => removeInCart(product)}>Remover</Button>
+                            <Button color='secondary' variant='text'
+                             onClick={() => {
+                                onRemoveInCart(product)
+                               
+                            }}>Remover</Button>
                             )
 
                     }

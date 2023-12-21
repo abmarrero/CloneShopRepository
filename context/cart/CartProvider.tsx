@@ -7,6 +7,7 @@ import Cookie from 'js-cookie';
 import { OrderSummary } from '../../components/cart/OrderSummary';
 
 export interface CartState {
+    isLoaded: boolean;
     cart: ICart[];
     numberOfItems: number;
     subTotal: number;
@@ -16,6 +17,7 @@ export interface CartState {
 
 
 const CART_INITIAL_STATE: CartState = {
+    isLoaded: false,
     cart: [],
     numberOfItems: 0,
     subTotal: 0,
@@ -62,6 +64,9 @@ export const CartProvider:FC<Props>  = ({ children }) => {
         if (JSON.stringify(state.cart) !== '[]') {
             Cookie.set('cart', JSON.stringify(state.cart));
         }
+        // else
+        // setTimeout(() => Cookie.set('cart', JSON.stringify(state.cart)), 5000);
+       
     }, [state.cart]);
 
     // useEffect(() => {
@@ -99,8 +104,13 @@ export const CartProvider:FC<Props>  = ({ children }) => {
     }
 
     const removeInCart =(product:ICart) => {
-        dispatch({type: '[Cart] - Remove Product in Cart', payload: product});
-     }
+        dispatch({type: '[Cart] - Remove Product in Cart', payload: product});  
+        
+        
+    }
+
+    
+  
 
     return (
         <CartContext.Provider value={{

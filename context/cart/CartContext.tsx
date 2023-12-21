@@ -5,6 +5,7 @@ import { createContext } from 'react';
 
 
 interface ContextProps {
+    isLoaded: boolean;
     cart: ICart[];
     numberOfItems: number;
     subTotal: number;

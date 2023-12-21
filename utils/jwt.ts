@@ -47,7 +47,7 @@ export const validarTokenJWT = (token:string):Promise<string> => {
           reject(err);
         } else {
             const {id} = decodedToken as {id: string};
-            console.log(`El token es válido. _id = ${id}`);
+            
           resolve(id);
         }
       });

@@ -65,11 +65,11 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
         }
     }
 
-    const logOut = () => {
-        Cookies.remove('token');
-        Cookies.remove('cart');
-        router.reload();
-    };
+    // const logOut = () => {
+    //     Cookies.remove('token');
+    //     Cookies.remove('cart');
+    //     router.reload();
+    // };
 
     const registerUser = async(email:string, password:string, name:string):Promise<{hasError:boolean; message?:string}> => {
         
@@ -100,7 +100,7 @@ export const AuthProvider:FC<Props>  = ({ children }) => {
            
            loginUser,
            registerUser,
-           logOut,
+          
         }}>
             { children }
         </AuthContext.Provider>

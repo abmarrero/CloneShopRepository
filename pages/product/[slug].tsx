@@ -91,7 +91,9 @@ export const Slug:NextPage<Props> = ({product}) => {
                 </Box>  
                 {
                     (product.inStock > 0)
-                    ?(<Button color='secondary' className='circular-btn' onClick={onAddProduct}>
+                    ?(<Button color='secondary' className='circular-btn'  
+                    disabled={tempCartProduct.sizes ? false :true}
+                    onClick={onAddProduct}>
                         {
                             tempCartProduct.sizes
                             ?'Agregar al carrito'
