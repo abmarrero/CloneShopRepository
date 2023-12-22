@@ -64,8 +64,6 @@ export const CartProvider:FC<Props>  = ({ children }) => {
         if (JSON.stringify(state.cart) !== '[]') {
             Cookie.set('cart', JSON.stringify(state.cart));
         }
-        // else
-        // setTimeout(() => Cookie.set('cart', JSON.stringify(state.cart)), 5000);
        
     }, [state.cart]);
 
@@ -104,8 +102,11 @@ export const CartProvider:FC<Props>  = ({ children }) => {
     }
 
     const removeInCart =(product:ICart) => {
-        dispatch({type: '[Cart] - Remove Product in Cart', payload: product});  
-        
+        dispatch({type: '[Cart] - Remove Product in Cart', payload: product}); 
+        if(state.cart[1] === null || state.cart[1] === undefined){
+            Cookie.set('cart', '[]');
+            state.numberOfItems=0;
+          }    
         
     }
 

@@ -6,19 +6,16 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 
 const CartPage = () => {
-    // const {isLoaded,cart} = useContext(CartContext);
-    // const router = useRouter();
+    const {isLoaded,cart} = useContext(CartContext)
+    const router = useRouter();
 
-    // useEffect(() => {
-    //     if(isLoaded && cart.length===0) {
-    //         router.replace('/cart/empty');
-    //     }
-    // }, [isLoaded,cart,router])
-
-    // if( !isLoaded || cart.length===0 ) {
-    //     return (<></>)
-    // }
-
+    useEffect(() => {
+      if( isLoaded && cart.length === 0 )  
+        router.replace('cart/empty')
+    }, [isLoaded,router,cart])
+    
+    if( !isLoaded || cart.length===0 )  
+        return (<></>)
   return (
     <ShopLayout title={'carrito-3'} pageDescription={'carrito de compras de la tienda'} >
         <Typography variant='h1' component='h1'>Carrito</Typography>
