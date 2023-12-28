@@ -1,7 +1,9 @@
 
 import { CartList, OrderSummary } from '@/components/cart'
 import { ShopLayout } from '@/components/layouts'
+import { jwtex } from '@/utils'
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from '@mui/material'
+import { GetServerSideProps } from 'next'
 import React from 'react'
 
 const SummaryCheckout = () => {
@@ -43,5 +45,39 @@ const SummaryCheckout = () => {
     </ShopLayout>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+
+    const {token=''}= req.cookies;
+
+   
+    let isValidToken = false;
+   
+    try {
+    await jwtex.validarTokenJWT(token.toString()) ;
+    isValidToken = true;
+
+    } catch (error) {
+        isValidToken = false;
+    }
+
+    if(!isValidToken){
+        return {
+            redirect: {
+                destination:'/auth/login?p=/checkout/summary',
+                permanent:false,
+            }
+        }
+    }
+
+          return {
+        props: {
+           
+        }
+
+    }
+
+  }
+
 
 export default SummaryCheckout

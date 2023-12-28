@@ -42,12 +42,12 @@ export const signToken = (id: string, email: string) =>{
 
 export const validarTokenJWT = (token:string):Promise<string> => {
   
-  //     if(!process.env.JWT_SECRET_SEED) {
-    //       throw new Error('no hay semilla de JWT - Revisa las variables de entorno');
-    //   }
-    //   if(token.length <= 10) {
-    //      Promise.reject('JWT no es válido');
-    // }
+      if(!process.env.JWT_SECRET_SEED) {
+          throw new Error('no hay semilla de JWT - Revisa las variables de entorno');
+      }
+      if(token.length <= 10) {
+         Promise.reject('JWT no es válido');
+    }
     return new Promise((resolve, reject) => {
       try {
         jwt.verify(token, process.env.JWT_SECRET_SEED || '', (err, decodedToken) => {
