@@ -41,7 +41,7 @@ const validateUser= async(req: NextApiRequest, res: NextApiResponse<Data>) =>{
  
   try {
     
-    userId = await jwtex.validarTokenJWT(token.toString() ) ;
+    userId = await jwtex.validarTokenJWT(token.toString()) ;
   } catch (error) {
     
   }

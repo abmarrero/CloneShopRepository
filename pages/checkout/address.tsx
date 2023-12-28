@@ -1,10 +1,22 @@
 
 
 import { ShopLayout } from '@/components/layouts'
-import { jwtex } from '@/utils'
+import { countries, jwtex } from '@/utils'
 import { Box, Button, FormControl, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { GetServerSideProps } from 'next'
 import React from 'react'
+
+type FormData = {
+    firsName: string;
+    lastName: string;
+    address: string;
+    address2?: string;
+    zip: string;
+    city: string;
+    country: string;
+    phone: string;
+}
+
 
 const AdressPage = () => {
   return (
@@ -34,9 +46,16 @@ const AdressPage = () => {
                     <Select
                     variant='filled'
                     label='País'
-                    value={1}
+                    value={'CUB'}
                     >
-                      <MenuItem value={1}>Costas Rica</MenuItem>      
+                        {
+                            countries.map(country => (
+
+                                <MenuItem key={country.code} value={country.code}>
+                                    {country.name}
+                                </MenuItem>      
+                            ))
+                        }
                       <MenuItem value={2}>Honduras</MenuItem>      
                       <MenuItem value={3}>El Salvador</MenuItem>      
                       <MenuItem value={4}>México</MenuItem>      
