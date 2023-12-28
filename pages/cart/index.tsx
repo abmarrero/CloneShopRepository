@@ -30,7 +30,11 @@ const CartPage = () => {
                     <Divider sx={{my: 2}}/>
                     <OrderSummary/>
                     <Box sx={{mt: 3}}>
-                        <Button color='secondary' fullWidth className='circular-btn'>
+                        <Button color='secondary' 
+                                fullWidth 
+                                className='circular-btn'
+                                href='/checkout/address'
+                                >
                             Checkout
                         </Button>
                     </Box>

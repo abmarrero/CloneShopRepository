@@ -16,7 +16,7 @@ interface Props{
 
 export const CartList:FC<Props> = ({editable = false}) => {
     
-    const { cart , updateQuantityCart, removeInCart } = useContext(CartContext);
+    const { cart , updateQuantityCart, removeInCart,numberOfItems } = useContext(CartContext);
 
     const onUpdateQuantity =(product: ICart, newValue:number) =>{
         product.quantity = newValue;
@@ -26,16 +26,13 @@ export const CartList:FC<Props> = ({editable = false}) => {
     const onRemoveInCart =(product: ICart) =>{
         
         removeInCart(product);
-        // console.log('primera' , cart);
-        if(cart[1] === null || cart[1] === undefined)
-        Cookie.set('cart', '[]')
-    }
-    // const onRemove =() =>{
         
-    //     if(JSON.stringify(cart)==='[]')
-    //         Cookie.set('cart', '[]');
-    //         // console.log('segunda' , cart);
-    // }
+        // if(cart[1] === null || cart[1] === undefined){
+        //   Cookie.set('cart', '[]');
+          
+        // }
+    }
+  
     
   return (
     <>

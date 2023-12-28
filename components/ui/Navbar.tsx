@@ -4,17 +4,16 @@ import { AppBar, Box, Toolbar,Button ,Typography ,Badge , IconButton, Input, Inp
 import Link from '@mui/material/Link';
 import { ClearOutlined, SearchOutlined } from '@mui/icons-material';
 import {ShoppingCartOutlined} from '@mui/icons-material';
-import router, { useRouter } from 'next/router';
+import  { useRouter } from 'next/router';
 import { CartContext, UIContext } from '@/context';
 import { useContext, useState } from 'react';
-import {useStyles} from '@/themes'
  
 export const Navbar = () => {
     const {asPath, push } = useRouter();
     const {toggleSideMenu} = useContext(UIContext);
     const {numberOfItems} = useContext(CartContext)
     
-    // const classes = useStyles();
+    
 
     const [SearchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -50,7 +49,7 @@ export const Navbar = () => {
             <Box sx={{display: isSearchVisible ?'none': {xs:'none',sm:'block'}}}>
               <Link href='/category/men'>
                 <Button color={ asPath==='/category/men' ? 'primary': 'info'} 
-                    className={useStyles}>Hombres </Button>
+                >Hombres </Button>
               </Link>
             
               <Link href='/category/women'>
