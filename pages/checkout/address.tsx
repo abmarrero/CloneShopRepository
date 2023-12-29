@@ -4,10 +4,11 @@ import { ShopLayout } from '@/components/layouts'
 import { countries, jwtex } from '@/utils'
 import { Box, Button, FormControl, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { GetServerSideProps } from 'next'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router'
+import { CartContext } from '@/context'
 
 type FormData = {
     firstName: string;
@@ -24,6 +25,7 @@ type FormData = {
 const AdressPage = () => {
 
     const router = useRouter();
+    const {updateAddress} = useContext(CartContext);
     const getAddressFromCookies = ():FormData => {
         return {
             firstName: Cookie.get('firstName') || '',
@@ -43,14 +45,8 @@ const AdressPage = () => {
 
     const onAddressSubmit = (data:FormData) => {
         console.log(data);
-        Cookie.set('firstName',data.firstName);
-        Cookie.set('lastName',data.lastName);
-        Cookie.set('address',data.address);
-        Cookie.set('address2',data.address2 || '');
-        Cookie.set('zip',data.zip);
-        Cookie.set('city',data.city);
-        Cookie.set('country',data.country);
-        Cookie.set('phone',data.phone);
+        
+        updateAddress(data);
 
         router.push('/checkout/summary');
     }
