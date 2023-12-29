@@ -1,12 +1,23 @@
 
 import { CartList, OrderSummary } from '@/components/cart'
 import { ShopLayout } from '@/components/layouts'
+import { CartContext } from '@/context'
 import { jwtex } from '@/utils'
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from '@mui/material'
 import { GetServerSideProps } from 'next'
-import React from 'react'
+import React, { useContext } from 'react'
+import { countries } from '../../utils/countries';
 
 const SummaryCheckout = () => {
+
+    const {shippingAddress, numberOfItems } = useContext(CartContext)
+
+    
+
+        if (!shippingAddress){
+            return <></>
+        }
+
   return (
     <ShopLayout title={'Resumen de orden'} pageDescription={'Resumen de la orden'} >
         <Typography variant='h1' component='h1'>Resumen de la orden</Typography>
@@ -17,17 +28,19 @@ const SummaryCheckout = () => {
         <Grid item xs={12} sm={5}>
             <Card className='summary-card'>
                 <CardContent >
-                    <Typography variant='h2'>Orden</Typography>
+                    <Typography variant='h2'>Orden ({numberOfItems} {numberOfItems===1?'producto':'productos' } )</Typography>
                     <Divider sx={{my: 2}}/>
                     <Box display='flex' justifyContent='end'>
                     <Link href='/checkout/address' style={{textDecoration: 'underline'}}>Editar</Link>
                     </Box>
                         <Typography variant='subtitle1'>Dirección de entrega</Typography>
-                        <Typography >Abel Marrero</Typography>
-                        <Typography >323 algun lugar</Typography>
-                        <Typography >Villa Clara</Typography>
-                        <Typography >Cuba</Typography>
-                        <Typography >+53 324143</Typography>
+                        <Typography >{shippingAddress.firstName} {shippingAddress.lastName}</Typography> 
+                        <Typography >
+                          {shippingAddress.address}{shippingAddress.address2? `,${shippingAddress.address2}`:''}
+                        </Typography>
+                        <Typography >{shippingAddress.city}</Typography>
+                        <Typography >{countries.find(c => c.code===shippingAddress.country)?.name}</Typography>
+                        <Typography >{shippingAddress.phone}</Typography>
                         <Divider sx={{my: 2}}/>
                         <Box display='flex' justifyContent='end'>
                             <Link href='/cart' style={{textDecoration: 'underline'}}>Editar</Link>
