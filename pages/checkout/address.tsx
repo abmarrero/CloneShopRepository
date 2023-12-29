@@ -24,18 +24,23 @@ type FormData = {
 const AdressPage = () => {
 
     const router = useRouter();
+    const getAddressFromCookies = ():FormData => {
+        return {
+            firstName: Cookie.get('firstName') || '',
+            lastName: Cookie.get('lastName') || '',
+            address: Cookie.get('address') || '',
+            address2: Cookie.get('address2') || '',
+            zip: Cookie.get('zip') || '',
+            city: Cookie.get('city') || '',
+            country: Cookie.get('country') || '',
+            phone: Cookie.get('phone') || '',
+        }
+    };
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        defaultValues: {
-            firstName:'',
-            lastName:'',
-            address:'',
-            address2:'',
-            zip:'',
-            city:'',
-            country:countries[0].code,
-            phone:'',
-        },
+        defaultValues: getAddressFromCookies()
     });
+
+
     const onAddressSubmit = (data:FormData) => {
         console.log(data);
         Cookie.set('firstName',data.firstName);

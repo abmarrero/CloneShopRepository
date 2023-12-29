@@ -2,6 +2,7 @@
 
 import { ICart } from '@/Interfaces/cart';
 import { createContext } from 'react';
+import { ShippingAddress } from './CartProvider';
 
 
 interface ContextProps {
@@ -11,6 +12,8 @@ interface ContextProps {
     subTotal: number;
     tax: number;
     total: number;
+
+    shippingAddress?: ShippingAddress;
 
     addProductToCart: (product: ICart) => void;
     updateQuantityCart:  (product: ICart) => void;
