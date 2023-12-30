@@ -69,7 +69,8 @@ type Inputs = {
                     label='Contraseña' type='password' variant='filled' fullWidth></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button type='submit' color='secondary' className='circular-btn' fullWidth size='large' 
+                    <Button type='submit' color='secondary' className='circular-btn' 
+                    fullWidth size='large' 
                     disabled = {botonBloqueado ? true : false}
                     >
                         Ingresar

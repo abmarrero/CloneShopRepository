@@ -44,7 +44,6 @@ const AdressPage = () => {
 
 
     const onAddressSubmit = (data:FormData) => {
-        console.log(data);
         
         updateAddress(data);
 
@@ -113,7 +112,7 @@ const AdressPage = () => {
                     select
                     variant='filled'
                     label='País'
-                    defaultValue={countries[0].code}
+                    defaultValue={Cookie.get('country') || countries[0].code}
                     {...register('country',{
                         required: 'Este campo es requerido',
                         })}
